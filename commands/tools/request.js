@@ -10,7 +10,7 @@ module.exports = {
 			.setAutocomplete(true)
 			.setRequired(true)),
 	async autocomplete(interaction) {
-		const focusedValue = interaction.options.getFocused(true);
+		const focusedValue = interaction.options.getFocused();
 		const choices = [
 			// UTAH //
 			{ name: '21200 W Road And I-84', value: 'https://www.cleardarksky.com/c/21200WRdUTcsk.gif' },
@@ -99,9 +99,7 @@ module.exports = {
 			{ name: 'Zion Gateway to the Stars', value: 'https://www.cleardarksky.com/c/ZgtwysUTcsk.gif' },
 			{ name: 'Zion Lodge', value: 'https://www.cleardarksky.com/c/ZnLdgMNcsk.gif' },
 		];
-		const filtered = choices.filter(choice => choice.name
-			.includes(focusedValue),
-		);
+		const filtered = choices.filter(choice => choice.name.toLowerCase().includes(focusedValue.toLowerCase()));
 		let options;
 		if (filtered.length > 25) {
 			options = filtered.slice(0, 25);
@@ -109,13 +107,12 @@ module.exports = {
 		else {
 			options = filtered;
 		}
-
 		await interaction.respond(
 			options.map(choice => ({ name: choice.name, value: choice.value })),
 		);
 	},
 	async execute(interaction) {
-		const option = interaction.option.getString('region');
-		await interaction.reply({ content: `Returning forecast for ${option}` });
+		const option = interaction.options.getString('region');
+		await interaction.reply({ files: [option] });
 	},
 };
