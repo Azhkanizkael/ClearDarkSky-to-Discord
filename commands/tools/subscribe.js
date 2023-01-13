@@ -1,7 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js');
 const fs = require('fs');
 const choices = require('../data/choices.json');
-const subscriptions = require('../data/subscriptions.json');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -29,27 +28,26 @@ module.exports = {
 	async execute(interaction) {
 		const option = interaction.options.getString('region');
 		console.log(`Subscription requested for ${option} in Guild: ${interaction.guild.id}, Channel: ${interaction.channel.id}`);
-		const jsonData = JSON.parse(fs.readFileSync('../data/subscriptions.json', 'utf8'));
-		// const exists = jsonData.forEach(function(element) {
-		// 	if (element.guildId === interaction.guild.id && element.channelId === interaction.channel.id && element.URI === option) {
-		// 		console.log(element);
-		// 	}
-		// });
-		// if (exists.guildId == interaction.guild.id) {
-		// 	await interaction.reply({ content: `Subscription already exists for ${option}` });
-		// }
-		// else {
-		// 	const subscription = {
-		// 		guildId: interaction.guild.id,
-		// 		channelId: interaction.channel.id,
-		// 		URI: option,
-		// 	};
-		// 	subscriptions.push(subscription);
-		// 	console.log(subscription);
-		// 	fs.writeFile('../data/subscriptions.json', JSON.stringify(subscriptions), err => {
-		// 		if (err) throw err;
-		// 	});
-		// 	await interaction.reply({ content: `Subscription Created for ${option}` });
-		// }
+		const subscription = {
+			guildId: interaction.guild.id,
+			channelId: interaction.channel.id,
+			URI: option,
+		};
+		// const jsonData = JSON.parse(fs.readFileSync('./commands/data/subscriptions.json', 'utf8'));
+		fs.readFile('./commands/data/subscriptions.json', 'utf8', (err, data) => {
+			if (err) throw err;
+			const dataObject = JSON.parse(data);
+			if (!dataObject.some(item => item.guildId === subscription.guildId && item.channelId === subscription.channelId && item.URI === subscription.URI)) {
+				dataObject.push(subscription);
+				fs.writeFile('./commands/data/subscriptions.json', JSON.stringify(dataObject), (err) => {
+					if (err) throw err;
+					console.log('Data written to file');
+				});
+			}
+			else {
+				console.log('Data already exists in file');
+			}
+		});
+		await interaction.reply({ content: `Subscription Created for ${option} for ${interaction.guild.name} in the ${interaction.channel.name} channel` });
 	},
 };

@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js');
+const fs = require('fs');
 const choices = require('../data/choices.json');
-// const subscriptions = require('../data/subscriptions.json');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -27,11 +27,25 @@ module.exports = {
 	},
 	async execute(interaction) {
 		const option = interaction.options.getString('region');
-		// Check to see if the subscription already exists
-
-		// if exists reply it already exists
-
-		// if not exists reply that it's been created
-		await interaction.reply({ content: `Subscription Removed for ${option}` });
+		console.log(`Unsubscribe requested for ${option} in Guild: ${interaction.guild.id}, Channel: ${interaction.channel.id}`);
+		const subscription = {
+			guildId: interaction.guild.id,
+			channelId: interaction.channel.id,
+			URI: option,
+		};
+		// './commands/data/subscriptions.json'
+		fs.readFile('./commands/data/subscriptions.json', 'utf8', (err, data) => {
+			if (err) throw err;
+			const dataObject = JSON.parse(data);
+			const index = dataObject.findIndex(item => item.guildId === subscription.guildId && item.channelId === subscription.channelId && item.URI === subscription.URI);
+			if (index !== -1) {
+				dataObject.splice(index, 1);
+				fs.writeFile('./commands/data/subscriptions.json', JSON.stringify(dataObject, null, 2), (err) => {
+					if (err) throw err;
+					console.log('Data removed from file');
+				});
+			}
+		});
+		await interaction.reply({ content: `Subscription Removed for ${option} for ${interaction.guild.name} in the ${interaction.channel.name} channel` });
 	},
 };
