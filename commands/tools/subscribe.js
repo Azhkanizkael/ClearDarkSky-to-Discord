@@ -33,7 +33,7 @@ module.exports = {
 			channelId: interaction.channel.id,
 			URI: option,
 		};
-		// const jsonData = JSON.parse(fs.readFileSync('./commands/data/subscriptions.json', 'utf8'));
+		// './commands/data/subscriptions.json'
 		fs.readFile('./commands/data/subscriptions.json', 'utf8', (err, data) => {
 			if (err) throw err;
 			const dataObject = JSON.parse(data);
