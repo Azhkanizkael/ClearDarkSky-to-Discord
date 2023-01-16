@@ -1,5 +1,8 @@
 const { SlashCommandBuilder } = require('discord.js');
-const choices = require('../data/choices.json');
+const choices = require('../data/latlong.json');
+
+const pairs = choices.map(site => ({ name: site[3], value: `https://www.cleardarksky.com/c/${site[0]}csk.gif` }));
+pairs.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -12,7 +15,7 @@ module.exports = {
 			.setRequired(true)),
 	async autocomplete(interaction) {
 		const focusedValue = interaction.options.getFocused();
-		const filtered = choices.filter(choice => choice.name.toLowerCase().includes(focusedValue.toLowerCase()));
+		const filtered = pairs.filter(choice => choice.name.toLowerCase().includes(focusedValue.toLowerCase()));
 		let options;
 		if (filtered.length > 25) {
 			options = filtered.slice(0, 25);
@@ -21,7 +24,7 @@ module.exports = {
 			options = filtered;
 		}
 		await interaction.respond(
-			options.map(choice => ({ name: choice.name, value: choice.value })),
+			options.map(site => ({ name: site.name, value: site.value })),
 		);
 	},
 	async execute(interaction) {
