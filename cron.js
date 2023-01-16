@@ -17,7 +17,9 @@ client.on('ready', () => {
 				const subscribedGuild = client.guilds.cache.get(dataObject[i].guildId);
 				const subscribedChannel = client.channels.cache.get(dataObject[i].channelId);
 				console.log(`posting ${dataObject[i].URI} to ${subscribedGuild.name} in ${subscribedChannel.name}`);
-				subscribedChannel.send(dataObject[i].URI);
+				subscribedChannel.send({
+					files: [dataObject[i].URI],
+				});
 			}
 		});
 	}, {
