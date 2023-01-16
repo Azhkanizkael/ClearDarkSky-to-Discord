@@ -9,7 +9,7 @@ Invite: https://discord.com/api/oauth2/authorize?client_id=1059646529113165854&p
 ## commands
 `/request` - this will post the most up to date version of the region's data
 
-![image](https://user-images.githubusercontent.com/7968751/210731201-32d7faf3-5901-4f8e-84df-3c0ca3e4bafc.png)
+![image](https://user-images.githubusercontent.com/7968751/212490148-1734017e-3891-4904-954c-5fa21c82a3eb.png)
 
 `/subscribe` - this will subscribe the image to be posted to the channel this command is used in every day at 6AM Mountain/Denver Time
 
@@ -17,5 +17,5 @@ Invite: https://discord.com/api/oauth2/authorize?client_id=1059646529113165854&p
 
 `/unsubscribe` - this will remove the subscription for the designated region from being posted daily
 
-![image](https://user-images.githubusercontent.com/7968751/212438830-2e902bb7-2806-438f-bd62-4824fd943330.png)
+![image](https://user-images.githubusercontent.com/7968751/212490132-b0eedf32-214c-4220-83bd-3514e808e73e.png)
 
