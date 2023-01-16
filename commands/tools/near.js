@@ -20,18 +20,23 @@ module.exports = {
 	async execute(interaction) {
 		const lat = interaction.options.getString('latitude');
 		const long = interaction.options.getString('longitude');
-		const newMessage = `Location requested for ${lat}, ${long}`;
-		await interaction.reply({ content: newMessage });
-		const distances = choices.map(entry => {
-			const latDiff = Math.abs(entry[1] - lat);
-			const longDiff = Math.abs(entry[2] - long);
-			return Math.sqrt(Math.pow(latDiff, 2) + Math.pow(longDiff, 2));
-		});
-		const closestEntries = distances
-			.map((distance, index) => ({ distance, index }))
-			.sort((a, b) => a.distance - b.distance)
-			.slice(0, 5)
-			.map(entry => choices[entry.index]);
-		await interaction.editReply(closestEntries.map(entry => entry[3]).join('\n'));
+		if (isNaN(lat) || isNaN(long)) {
+			interaction.reply(`Please provide valid values for latitude and longitude. ${lat} and ${long} are an invalid combination.`);
+		}
+		else {
+			const newMessage = `Location requested for ${lat}, ${long}`;
+			await interaction.reply({ content: newMessage });
+			const distances = choices.map(entry => {
+				const latDiff = Math.abs(entry[1] - lat);
+				const longDiff = Math.abs(entry[2] - long);
+				return Math.sqrt(Math.pow(latDiff, 2) + Math.pow(longDiff, 2));
+			});
+			const closestEntries = distances
+				.map((distance, index) => ({ distance, index }))
+				.sort((a, b) => a.distance - b.distance)
+				.slice(0, 5)
+				.map(entry => choices[entry.index]);
+			await interaction.editReply(closestEntries.map(entry => entry[3]).join('\n'));
+		}
 	},
 };
