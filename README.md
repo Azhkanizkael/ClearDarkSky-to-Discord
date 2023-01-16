@@ -23,4 +23,10 @@ Invite: https://discord.com/api/oauth2/authorize?client_id=1059646529113165854&p
 
 ![image](https://user-images.githubusercontent.com/7968751/212731992-4541646c-7a81-4c17-88c1-f2d87deea455.png)
 
+`/near` - this will take on the parameters of latitude and longitude and return the nearest 5 regions
 
+![image](https://user-images.githubusercontent.com/7968751/212761020-9006296a-eb53-43c2-b7d6-9be3e529d7af.png)
+
+`/search` - this will take the parameter of a search query of city, state and return the nearest 5 regions
+
+![image](https://user-images.githubusercontent.com/7968751/212760977-babef103-cf6a-4057-aad9-4596fe860b13.png)
