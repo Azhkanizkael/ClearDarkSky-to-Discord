@@ -19,3 +19,8 @@ Invite: https://discord.com/api/oauth2/authorize?client_id=1059646529113165854&p
 
 ![image](https://user-images.githubusercontent.com/7968751/212490132-b0eedf32-214c-4220-83bd-3514e808e73e.png)
 
+`/legend` - this will help you know what each of the little squares means
+
+![image](https://user-images.githubusercontent.com/7968751/212731992-4541646c-7a81-4c17-88c1-f2d87deea455.png)
+
+
