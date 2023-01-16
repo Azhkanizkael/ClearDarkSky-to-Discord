@@ -24,7 +24,7 @@ module.exports = {
 			options = filtered;
 		}
 		await interaction.respond(
-			options.map(site => ({ name: site.name, value: site.value })),
+			options,
 		);
 	},
 	async execute(interaction) {
