@@ -15,7 +15,7 @@ module.exports = {
 			.setRequired(true),
 		),
 	async execute(interaction) {
-		const url = `https://dev.virtualearth.net/REST/v1/Locations?query=${interaction.options.getString('criteria')}&key=${auth.mapsKey}`;
+		const url = `https://atlas.microsoft.com/search/address/json?query=${interaction.options.getString('criteria')}&subscription-key=${auth.mapsKey}`;
 		https.get(url, (res) => {
 			if (res.statusCode !== 200) {
 				interaction.reply('An error occurred: ' + res.statusCode);
@@ -26,9 +26,9 @@ module.exports = {
 			});
 			res.on('end', () => {
 				const responseData = JSON.parse(data);
-				if (responseData.resourceSets[0].estimatedTotal !== 0) {
-					const lat = responseData.resourceSets[0].resources[0].point.coordinates[0];
-					const long = responseData.resourceSets[0].resources[0].point.coordinates[1];
+				if (responseData.summary.numResults !== 0) {
+					const lat = responseData.results[0].position.lat;
+					const long = responseData.results[0].position.lon;
 					if (lat !== undefined && long !== undefined) {
 						const distances = choices.map(entry => {
 							const latDiff = Math.abs(entry[1] - lat);
